@@ -1,0 +1,53 @@
+from selenium import webdriver
+from selenium.webdriver.common.keys import Keys
+from selenium.webdriver.common.by import By
+from selenium.webdriver.chrome.service import Service
+from webdriver_manager.chrome import ChromeDriverManager
+import time
+
+chrome_options = webdriver.ChromeOptions()
+driver = webdriver.Chrome(service=Service(ChromeDriverManager().install()),
+                          options=chrome_options)
+
+ID = 'lhj2442'
+PW = 'zheld123'
+i = 0
+url = 'https://memberssl.auction.co.kr/Authenticate/default.aspx?\
+    url=http%3A//corners.auction.co.kr/AllKill/AllDay.aspx'
+driver.get(url)
+driver.implicitly_wait(3)
+
+e = driver.find_element(By.ID, 'id')
+e.clear()
+e.send_keys(ID)
+e = driver.find_element(By.ID, 'password')
+e.clear()
+e.send_keys(PW)
+e.send_keys(Keys.ENTER)
+driver.implicitly_wait(3)
+
+driver.get('http://www.auction.co.kr/?redirect=1')
+driver.implicitly_wait(3)
+e = driver.find_element(By.ID, 'txtKeyword')
+e.send_keys('nintendo')
+e.send_keys(Keys.ENTER)
+driver.implicitly_wait(3)
+
+brand = driver.find_element(By.CLASS_NAME, 'text--brand')
+
+while(brand):
+    
+    products = driver.find_elements(By.CLASS_NAME,'text--title')
+    print('상품 : ',products[i].text)
+    product = driver.find_elements(By.CLASS_NAME,'text--price_seller')
+    print('가격 : ',product[i].text)
+    print('가격 : ',product[100].text)
+    print(i)
+    i += 1
+
+webpage = driver.page_source
+
+
+
+input()
+
